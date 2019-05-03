@@ -43,6 +43,7 @@ type ReviewData struct {
 type Result struct {
 	ProductName string
 	Review      string
+	Rating      int
 	Sentiment   float32
 }
 
@@ -88,8 +89,8 @@ func main() {
 	}
 	sentimentFound, err := sentiment.Evaluate(arrayOfTexts, sentimentSession)
 	for j := 0; j < i; j++ {
-		tempResult := Result{arrayOfReviews[j].Name, arrayOfTexts[j], sentimentFound[j]}
-		fmt.Printf("Name: %s Sentiment %f\n", tempResult.ProductName, tempResult.Sentiment)
+		tempResult := Result{arrayOfReviews[j].Name, arrayOfTexts[j], arrayOfReviews[j].Reviews.Rating, sentimentFound[j]}
+		//fmt.Printf("Name: %s Sentiment %f\n", tempResult.ProductName, tempResult.Sentiment)
 		_, err := collectionWrite.InsertOne(context.TODO(), tempResult)
 		if err != nil {
 			log.Fatal(err)
